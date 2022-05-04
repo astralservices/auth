@@ -1,0 +1,27 @@
+steps:
+  - name: node
+    entrypoint: yarn
+    args: ['install']
+  - name: node
+    entrypoint: yarn
+    env:
+      - 'NEXT_PUBLIC_SUPABASE_URL=https://aoeinliucinfkgwibqgr.supabase.co'
+      - 'NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDkxNTQ5MSwiZXhwIjoxOTU2NDkxNDkxfQ.s0qahlGo_qstkY0v8dGwiILEorRpKiF0crIJPieSvCU'
+      - 'SUPABASE_SECRET_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjQwOTE1NDkxLCJleHAiOjE5NTY0OTE0OTF9.F1bFBq4c3-xls2srHGbbo5fDlZW_U5W0DRk9FI7_z5Y'
+      - 'NEXT_PUBLIC_ONEAUTH_ENDPOINT=https://auth.astralapp.io'
+      - 'NEXT_PUBLIC_API_ENDPOINT=https://api.astralapp.io'
+      - 'NEXT_PUBLIC_DASHBOARD_URL=https://dash.astralapp.io'
+    args: ['nx', 'build', 'one-auth', '--prod']
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'gcr.io/astralservices/auth:$BRANCH_NAME',
+        '-f',
+        'apps/one-auth/Dockerfile',
+        '.',
+      ]
+images:
+  - 'gcr.io/astralservices/auth:$BRANCH_NAME'
+timeout: 1200s

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+
+@font-face {
+  font-family: 'Typo Grotesk';
+  src: url('/assets/fonts/TypoGrotesk/TypoGroteskBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Typo Grotesk Black';
+  src: url('/assets/fonts/TypoGrotesk/TypoGroteskBlack.otf') format('opentype');
+}
+
+@tailwind utilities;
