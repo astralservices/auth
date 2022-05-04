@@ -3,7 +3,7 @@
   "configurations": [
     {
       "type": "node-terminal",
-      "name": "Dev Server",
+      "name": "Auth Dev Server",
       "request": "launch",
       "command": "yarn dev --port 8000",
       "cwd": "${workspaceFolder}"

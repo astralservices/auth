@@ -132,16 +132,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
         user,
         loading,
         login: () =>
-          supabase.auth.signIn(
-            { provider: "discord" },
-            {
-              scopes: "identify email guilds",
-              redirectTo: `${
-                process.env["NEXT_PUBLIC_AUTH_ENDPOINT"] ||
-                "https://dash.astralapp.io"
-              }/auth/callback`,
-            }
-          ),
+          fetch(`${process.env["NEXT_PUBLIC_API_ENDPOINT"]}/api/v1/auth/login/discord`, {
+            method: "GET",
+          }),
         logout: async (redirectTo?: string) => {
           Cookies.remove("sb-token", {
             domain:
