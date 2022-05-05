@@ -50,13 +50,6 @@ export function Index() {
     }
   }, [redirect]);
 
-  const handleLogin = (e: any, redirectUrl: string) => {
-    e.preventDefault();
-    // set localStorage to redirect to the given url
-    localStorage.setItem("redirectUrl", redirectUrl);
-    login();
-  };
-
   return (
     <>
       <Card>
@@ -130,7 +123,8 @@ export function Index() {
             </h1>
 
             <div className="flex justify-center space-y-4">
-              <form action={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/login/discord`} method="GET" onSubmit={(e) => handleLogin(e, (redirect as string) || "/")}>
+              <form action={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/auth/login/discord`} method="POST">
+                <input hidden readOnly name="redirect" value={(redirect as string) || "/"} />
                 <button
                   className="flex items-center px-10 py-2 text-lg text-white bg-indigo-500 rounded-md gap-x-4 font-display"
                   type="submit"
