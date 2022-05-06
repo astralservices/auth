@@ -233,7 +233,8 @@ export type WorkspaceIntegration<T = Record<string, unknown>> = {
 
 export type APIResponse<T> = {
   result: T;
-  error: boolean;
+  error?: boolean;
+  code: number;
 };
 
 export type WorkspaceStats = {

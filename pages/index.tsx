@@ -8,9 +8,43 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Providers from "../components/Providers";
 import Link from "next/link";
+import { GetServerSidePropsContext } from "next";
+import { getCookie } from "cookies-next";
+import { Session, User } from "@supabase/supabase-js";
+import { Provider, APIResponse } from "../util/types";
+import { supabase } from "../util/supabase";
 
-export function Index() {
-  const { user, login, logout, loading, session } = useAuth();
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const accessToken = getCookie("access_token", ctx).toString();
+  
+  if (!accessToken) {
+    return {
+      props: {
+        ...ctx.params,
+        session: null,
+        user: null,
+        loading: false,
+        providers: null
+      }
+    }
+  }
+
+  const user = await supabase.auth.api.getUser(accessToken)
+
+  const providers: APIResponse<Provider[]> = await fetch(`${process.env.NEXT_PUBLUC_API_ENDPOINT}/api/v1/providers`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  }).then(res => res.json())
+}
+
+export function Index({ session, user, loading, providers }: {
+  session: Session,
+  user: User,
+  loading: boolean,
+  providers?: Provider[]
+}) {
+  const { login, logout } = useAuth();
 
   const [checkingRedirect, setCheckingRedirect] = useState(true);
   const [message, setMessage] = useState("");

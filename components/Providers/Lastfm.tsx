@@ -9,12 +9,12 @@ import useSWR from "swr";
 import { Provider } from "../../util/types";
 import Spinner from "../Spinner";
 
-export default function LastfmProvider({ user }: { user: User }) {
+export default function LastfmProvider({ user, data }: { user: User, data?: Provider }) {
   const {
     data: provider,
     error,
     mutate,
-  } = useSWR<Provider[]>("/api/providers/lastfm");
+  } = useSWR<Provider[]>("/api/v1/auth/providers/lastfm");
 
   const { session } = useAuth();
 
@@ -22,7 +22,7 @@ export default function LastfmProvider({ user }: { user: User }) {
 
   useEffect(() => {
     if (!session || !session.access_token) return;
-    fetch("/api/providers/lastfm/url", {
+    fetch("/api/v1/auth/providers/lastfm/url", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.access_token}`,

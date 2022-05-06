@@ -88,7 +88,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setUser(newUser);
 
       if (newUser && event === "SIGNED_IN") {
-        fetch(`${process.env["NEXT_PUBLIC_API_ENDPOINT"]}/ping`)
+        fetch(`${process.env["NEXT_PUBLIC_API_ENDPOINT"]}`)
           .then(() => {
             Cookies.set("sb-token", session?.access_token ?? "", {
               sameSite: "Lax",

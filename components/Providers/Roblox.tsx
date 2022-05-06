@@ -384,7 +384,7 @@ export default function RobloxProviderComponent({ user }: { user: User }) {
     data: provider,
     error,
     mutate,
-  } = useSWR<RobloxProvider[]>("/api/providers/roblox");
+  } = useSWR<RobloxProvider[]>("/api/v1/auth/providers/roblox");
 
   const [open, setOpen] = useState(false);
   const [promptUnlink, setPromptUnlink] = useState(false);
