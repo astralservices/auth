@@ -5,7 +5,7 @@
       "type": "node-terminal",
       "name": "Auth Dev Server",
       "request": "launch",
-      "command": "yarn dev --port 8000",
+      "command": "pnpm run dev --port 8000",
       "cwd": "${workspaceFolder}"
     }
   ]

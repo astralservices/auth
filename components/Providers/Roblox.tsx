@@ -13,6 +13,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import useSWR from "swr";
 import { Provider, RobloxProvider } from "../../util/types";
 import Spinner from "../Spinner";
+import Link from "next/link";
 
 function VerifyModal({ open, setOpen }) {
   const { user, session } = useAuth();
@@ -379,13 +380,13 @@ function UnlinkModal({ open, setOpen }) {
   );
 }
 
-export default function RobloxProviderComponent({ user }: { user: User }) {
-  const {
-    data: provider,
-    error,
-    mutate,
-  } = useSWR<RobloxProvider[]>("/api/v1/auth/providers/roblox");
-
+export default function RobloxProviderComponent({
+  user,
+  provider,
+}: {
+  user: User;
+  provider: Provider;
+}) {
   const [open, setOpen] = useState(false);
   const [promptUnlink, setPromptUnlink] = useState(false);
 
@@ -393,51 +394,24 @@ export default function RobloxProviderComponent({ user }: { user: User }) {
     setOpen(true);
   };
 
-  useEffect(() => {
-    mutate();
-  }, [mutate, open, promptUnlink]);
-
   return (
     <>
       {provider ? (
-        provider.length > 0 ? (
-          <>
-            {provider.map((provider) => (
-              <>
-                <button
-                  key={provider.id}
-                  type="button"
-                  onClick={() => {
-                    setPromptUnlink(true);
-                  }}
-                  className="flex items-center justify-center px-10 py-2 text-lg font-black text-white bg-gray-800 rounded-md gap-x-4"
-                >
-                  <Roblox className="w-5 h-5 text-white" color="white" />
-                  <span>Signed in as {provider.provider_data.username}</span>
-                </button>
-                <UnlinkModal open={promptUnlink} setOpen={setPromptUnlink} />
-              </>
-            ))}
-          </>
-        ) : (
-          <>
-            <button
-              className="flex items-center justify-center px-10 py-2 text-lg font-black text-center text-white bg-gray-800 rounded-md gap-x-4"
-              onClick={handleLogin}
-            >
+        <>
+          <Link href="/providers/roblox" passHref>
+            <a className="flex items-center justify-center px-10 py-2 text-lg font-black text-white bg-gray-800 rounded-md gap-x-4">
               <Roblox className="w-5 h-5 text-white" color="white" />
-              <span>Sign in with Roblox</span>
-            </button>
-            <VerifyModal open={open} setOpen={setOpen} />
-          </>
-        )
+              <span>Signed in as {provider.provider_data.username}</span>
+            </a>
+          </Link>
+        </>
       ) : (
-        <div className="flex items-center justify-center px-10 py-2 text-lg font-black text-center text-white bg-gray-800 rounded-md gap-x-4">
-          <Roblox className="w-5 h-5 text-white" color="white" />
-          <span className="h-5">
-            <Spinner className="w-5 h-5 text-white animate-spin" />
-          </span>
-        </div>
+        <Link href="/providers/roblox" passHref>
+          <a className="flex items-center justify-center px-10 py-2 text-lg font-black text-center text-white bg-gray-800 rounded-md gap-x-4">
+            <Roblox className="w-5 h-5 text-white" color="white" />
+            <span>Sign in with Roblox</span>
+          </a>
+        </Link>
       )}
     </>
   );
