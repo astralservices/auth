@@ -1,0 +1,12 @@
+---
+import { Discord } from '@icons-pack/react-simple-icons';
+import { DiscordUserInfo } from '../../../types';
+
+const { user } = Astro.props as { user: DiscordUserInfo }
+---
+
+<button disabled
+    class="flex items-center px-10 py-2 text-lg font-black text-white bg-indigo-500 rounded-md cursor-not-allowed gap-x-4">
+    <Discord class="w-5 h-5 text-white" color="white" />
+    Signed in as {user.provider_data.username}
+</button>

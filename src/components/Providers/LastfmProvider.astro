@@ -1,0 +1,25 @@
+---
+import { Lastdotfm } from '@icons-pack/react-simple-icons';
+import { LastfmUserInfo } from '../../../types';
+
+const { user } = Astro.props as { user: LastfmUserInfo }
+---
+
+<>
+    {user ? <>
+        <a href="/providers/lastfm"
+            class="flex items-center justify-center px-10 py-2 text-lg font-black text-center text-white bg-[#D51007] rounded-md gap-x-4">
+            <Lastdotfm className="w-5 h-5 text-white" color="white" />
+            <span>Signed in as {user.provider_id}</span>
+        </a>
+    </> : <>
+        <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/login/lastfm`}>
+            <input type="hidden" name="redirect" value={Astro.site} />
+            <button type="submit"
+                class="flex items-center w-full justify-center px-10 py-2 text-lg font-black text-center text-white bg-[#D51007] rounded-md gap-x-4">
+                <Lastdotfm className="w-5 h-5 text-white" color="white" />
+                <span>Sign in with Last.fm</span>
+            </button>
+        </form>
+    </>}
+</>

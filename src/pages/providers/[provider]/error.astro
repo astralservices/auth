@@ -1,0 +1,28 @@
+---
+import { GetProvider } from "../../../../util/user";
+import Card from "../../../components/Card.astro";
+
+const { provider: providerId } = Astro.params as { provider: string };
+
+const error = Astro.request.url
+
+console.log(error)
+---
+
+<Card>
+    <h1 class="text-2xl font-bold text-center text-white">
+        {providerId.charAt(0).toUpperCase() + providerId.slice(1)} Settings
+    </h1>
+
+    <h3 class="text-xl font-bold text-center text-white">
+        Error linking your account
+    </h3>
+
+    <p class="text-center text-white">{error}</p>
+
+    <a href="/">
+        <p class="mt-4 text-sm font-bold text-center text-blue-500">
+            Go Back
+        </p>
+    </a>
+</Card>
