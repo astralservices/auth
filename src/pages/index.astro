@@ -6,6 +6,7 @@ import { ArrowRightIcon } from '@heroicons/react/outline'
 import { GetProviders, GetUser } from "../../util/user";
 import DiscordProvider from "../components/Providers/DiscordProvider.astro";
 import LastfmProvider from "../components/Providers/LastfmProvider.astro";
+import RobloxProvider from "../components/Providers/RobloxProvider.astro";
 
 const user = await GetUser(process.env, Astro);
 const providers = await GetProviders(process.env, Astro);
@@ -31,15 +32,17 @@ const providers = await GetProviders(process.env, Astro);
 			<div class="grid justify-center space-y-4">
 				<DiscordProvider user={user} />
 				<LastfmProvider user={providers.find((p)=> p.type === 'lastfm')} />
-					<form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/discord`} method="GET"
-						class="w-full">
-						<input hidden readonly name="redirect" value={Astro.site} />
-						<button
-							class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
-							type="submit">
-							Sign out
-						</button>
-					</form>
+					<RobloxProvider user={providers.find((p)=> p.type === 'roblox')} />
+
+						<form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/discord`} method="GET"
+							class="w-full">
+							<input hidden readonly name="redirect" value={Astro.site} />
+							<button
+								class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
+								type="submit">
+								Sign out
+							</button>
+						</form>
 			</div>
 
 		</> :

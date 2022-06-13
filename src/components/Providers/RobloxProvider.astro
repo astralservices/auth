@@ -1,0 +1,15 @@
+---
+import { Roblox } from '@icons-pack/react-simple-icons';
+import { RobloxUserInfo } from '../../../types';
+
+const { user } = Astro.props as { user: RobloxUserInfo }
+---
+
+<>
+    <a href="/providers/roblox"
+        class="flex items-center justify-center px-10 py-2 text-lg font-black text-center text-white bg-gray-800 rounded-md gap-x-4">
+        <Roblox className="w-5 h-5 text-white" color="white" />
+        {user ? user.provider_data.status !== "pending" ? <span>Signed in as {user.provider_data.username}</span> :
+        <span>Pending Verification</span> : <span>Sign in with Roblox</span>}
+    </a>
+</>

@@ -24,14 +24,16 @@ export interface Provider {
   };
 }
 
-export interface DiscordUserInfo extends UserInfo {}
+export interface DiscordUserInfo extends UserInfo {
+  provider_data: ProviderData;
+}
 
 export interface UserInfo {
   created_at: Date;
   id: string;
   provider_access_token: string;
   provider_avatar_url: string;
-  provider_data: ProviderData;
+  provider_data: Record<string, any>;
   provider_email: string;
   provider_expires_at: Date;
   provider_id: string;
@@ -41,6 +43,8 @@ export interface UserInfo {
 }
 
 export interface LastfmUserInfo extends UserInfo {}
+
+export interface RobloxUserInfo extends UserInfo {}
 
 export interface ProviderData {
   accent_color: number;
