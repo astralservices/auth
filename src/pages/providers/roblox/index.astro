@@ -5,7 +5,7 @@ import Card from "../../../components/Card.astro";
 import Layout from "../../../components/Layout.astro";
 
 const provider = await GetProvider("roblox", import.meta.env, Astro);
-console.log(provider);
+
 const code = provider ? provider.provider_data.code : Astro.site.searchParams.get('code') || Astro.site.searchParams.get('code');
 ---
 
