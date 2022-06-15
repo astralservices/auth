@@ -4,7 +4,7 @@ import Card from "../../../components/Card.astro";
 
 const { provider: providerId } = Astro.params as { provider: string };
 
-const error = Astro.request.url
+const error = Astro.site.searchParams.get('error')
 
 console.log(error)
 ---
