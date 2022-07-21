@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <html lang="en">
@@ -9,17 +8,37 @@
     <meta name="viewport" content="width=device-width" />
     <title>Astral Auth</title>
 
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
     <link rel="icon" href="/img/IconMeshed.svg" type="image/x-icon" />
+
+    <script type="text/partytown">
+        (function (h, o, t, j, a, r) {
+            h.hj =
+                h.hj ||
+                function () {
+                    (h.hj.q = h.hj.q || []).push(arguments);
+                };
+            h._hjSettings = { hjid: 2819958, hjsv: 6 };
+            a = o.getElementsByTagName("head")[0];
+            r = o.createElement("script");
+            r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+    </script>
 </head>
 
 <body>
     <main class="h-screen bg-black">
-
         <slot />
     </main>
 
+    <noscript>
+        <img src="https://shy.maatt.ch/ingress/5bad3fba-8968-486b-a60c-7e8719ad2c1d/pixel.gif" />
+    </noscript>
+    <script defer src="https://shy.maatt.ch/ingress/5bad3fba-8968-486b-a60c-7e8719ad2c1d/script.js"
+        type="text/partytown"></script>
 </body>
 
 </html>
