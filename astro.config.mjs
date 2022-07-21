@@ -3,8 +3,6 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import turbolinks from "@astrojs/turbolinks";
 import partytown from "@astrojs/partytown";
-import node from "@astrojs/node";
-
 import deno from "@astrojs/deno";
 
 // https://astro.build/config
