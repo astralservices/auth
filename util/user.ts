@@ -13,9 +13,7 @@ export async function GetUser(
 ): Promise<DiscordUserInfo | null> {
   const data: APIResponse<DiscordUserInfo> = await fetch(
     `${
-      env.SECRET_NODE_ENV === "production"
-        ? import.meta.env.PUBLIC_API_ENDPOINT
-        : "http://127.0.0.1:3000"
+      env.PROD ? import.meta.env.PUBLIC_API_ENDPOINT : "http://127.0.0.1:3000"
     }/api/v1/auth/session`,
     {
       headers: Astro.request.headers,
@@ -38,9 +36,7 @@ export async function GetProviders(
 ): Promise<Provider[] | null> {
   const data: APIResponse<Provider[]> = await fetch(
     `${
-      env.SECRET_NODE_ENV === "production"
-        ? import.meta.env.PUBLIC_API_ENDPOINT
-        : "http://127.0.0.1:3000"
+      env.PROD ? import.meta.env.PUBLIC_API_ENDPOINT : "http://127.0.0.1:3000"
     }/api/v1/auth/providers`,
     {
       headers: Astro.request.headers,
@@ -64,9 +60,7 @@ export async function GetProvider(
 ): Promise<Provider | null> {
   const data: APIResponse<Provider> = await fetch(
     `${
-      env.SECRET_NODE_ENV === "production"
-        ? import.meta.env.PUBLIC_API_ENDPOINT
-        : "http://127.0.0.1:3000"
+      env.PROD ? import.meta.env.PUBLIC_API_ENDPOINT : "http://127.0.0.1:3000"
     }/api/v1/auth/providers/${provider}`,
     {
       headers: Astro.request.headers,
