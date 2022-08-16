@@ -40,7 +40,7 @@ const redirect = astroUrl.searchParams.get('redirect')
 
 						<form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/discord`} method="GET"
 							class="w-full">
-							<input hidden readonly name="redirect" value={redirect ?? Astro.site} />
+							<input hidden readonly name="redirect" value={redirect ?? Astro.site.toString()} />
 							<button
 								class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
 								type="submit">
@@ -58,7 +58,7 @@ const redirect = astroUrl.searchParams.get('redirect')
 			<div class="flex justify-center space-y-4">
 				<form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/login/discord?redirect=${Astro.site}`}
 					method="GET">
-					<input hidden readonly name="redirect" value={redirect ?? Astro.site} />
+					<input hidden readonly name="redirect" value={redirect ?? Astro.site.toString()} />
 					<button
 						class="flex items-center px-10 py-2 text-lg font-semibold text-white bg-indigo-500 rounded-md gap-x-4"
 						type="submit">
