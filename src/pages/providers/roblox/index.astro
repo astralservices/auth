@@ -5,6 +5,7 @@ import Card from "../../../components/Card.astro";
 import Layout from "../../../components/Layout.astro";
 
 const provider = await GetProvider("roblox", import.meta.env, Astro);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const code = provider ? provider.provider_data.code : Astro.site.searchParams.get('code') || Astro.site.searchParams.get('code');
 ---
@@ -31,7 +32,7 @@ const code = provider ? provider.provider_data.code : Astro.site.searchParams.ge
                 <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/callback/roblox`} method="GET">
                     <input type="hidden" name="code" value={code} />
                     <input type="hidden" name="user_id" value={provider.provider_id} />
-                    <input type="hidden" name="redirect" value={Astro.site} />
+                    <input type="hidden" name="redirect" value={Astro.site.toString()} />
                     <button type="submit"
                         class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
                         Link
@@ -50,7 +51,7 @@ const code = provider ? provider.provider_data.code : Astro.site.searchParams.ge
 
                 <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/${provider.type}`}
                     method="GET">
-                    <input hidden readonly name="redirect" value={Astro.site} />
+                    <input hidden readonly name="redirect" value={Astro.site.toString()} />
                     <button
                         class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
                         type="submit">
@@ -71,7 +72,7 @@ const code = provider ? provider.provider_data.code : Astro.site.searchParams.ge
 
             <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/login/roblox`} method="GET"
                 class="space-y-6">
-                <input hidden readonly name="redirect" value={Astro.canonicalURL} />
+                <input hidden readonly name="redirect" value={canonicalURL.toString()} />
                 <div>
                     <label for="username" class="block text-sm font-medium text-left text-gray-50">
                         Roblox Username
