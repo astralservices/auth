@@ -1,5 +1,5 @@
 ---
-import { GetProvider } from "../../../../util/user";
+import { GetProvider, GetUser } from "../../../../util/user";
 import Card from "../../../components/Card.astro";
 import Layout from "../../../components/Layout.astro";
 
@@ -7,6 +7,14 @@ const { provider: providerId } = Astro.params as { provider: string };
 
 const provider = await GetProvider(providerId, import.meta.env, Astro);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const user = await GetUser(import.meta.env, Astro);
+
+if (!user) {
+  return Astro.redirect(
+    `/?redirect=${canonicalURL}`
+  );
+}
 
 if (!provider && providerId !== 'roblox') {
     return Astro.redirect('/')

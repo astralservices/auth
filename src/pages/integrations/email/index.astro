@@ -1,0 +1,34 @@
+---
+import { GetUser } from "../../../../util/user";
+import Card from "../../../components/Card.astro";
+import Layout from "../../../components/Layout.astro";
+
+const workspace = Astro.url.searchParams.get("workspace");
+const integration = Astro.url.searchParams.get("integration");
+const code = Astro.url.searchParams.get("code");
+
+const user = await GetUser(import.meta.env, Astro);
+
+if (!user) {
+  return Astro.redirect(
+    `/?redirect=${Astro.url}`
+  );
+}
+---
+
+<Layout>
+  <Card>
+    <h1 class="text-2xl font-bold text-center text-white">
+      Finish linking your email
+    </h1>
+
+    <form method="POST" action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/workspaces/${workspace}/integrations/${integration}/data/@me`}>
+      <input type="hidden" name="verificationCode" value={code}>
+      <input hidden readonly name="redirect" value={Astro.site.toString() + "/integrations/email/success"} />
+            <button class="w-full px-6 py-2 text-lg font-black text-center text-white bg-green-500 rounded-md gap-x-4"
+                type="submit">
+                Verify
+        </button>
+    </form>
+  </Card>
+</Layout>
