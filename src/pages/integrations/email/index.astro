@@ -11,7 +11,7 @@ const user = await GetUser(import.meta.env, Astro);
 
 if (!user) {
   return Astro.redirect(
-    `/?redirect=${Astro.url}`
+    `/?redirect=${encodeURIComponent(Astro.url.toString())}`
   );
 }
 ---
