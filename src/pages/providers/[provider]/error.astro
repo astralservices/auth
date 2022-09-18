@@ -1,12 +1,20 @@
 ---
-import { GetProvider } from "../../../../util/user";
+import { GetProvider, GetUser } from "../../../../util/user";
 import Card from "../../../components/Card.astro";
 
 const { provider: providerId } = Astro.params as { provider: string };
 
 const error = Astro.site.searchParams.get('error')
 
-console.log(error)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const user = await GetUser(import.meta.env, Astro);
+
+if (!user) {
+  return Astro.redirect(
+    `/?redirect=${canonicalURL}`
+  );
+}
 ---
 
 <Card>
