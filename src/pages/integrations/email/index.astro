@@ -24,7 +24,7 @@ if (!user) {
 
     <form method="POST" action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/workspaces/${workspace}/integrations/${integration}/data/@me`}>
       <input type="hidden" name="verificationCode" value={code}>
-      <input hidden readonly name="redirect" value={Astro.site.toString() + "/integrations/email/success"} />
+      <input hidden readonly name="redirect" value={Astro.site.toString() + "integrations/email/success"} />
             <button class="w-full px-6 py-2 text-lg font-black text-center text-white bg-green-500 rounded-md gap-x-4"
                 type="submit">
                 Verify
