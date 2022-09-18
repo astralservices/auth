@@ -1,0 +1,27 @@
+---
+import { GetUser } from "../../../../util/user";
+import Card from "../../../components/Card.astro";
+import Layout from "../../../components/Layout.astro";
+
+const prefix = Astro.url.searchParams.get("prefix");
+
+const user = await GetUser(import.meta.env, Astro);
+
+if (!user) {
+  return Astro.redirect(
+    `/?redirect=${Astro.url}`
+  );
+}
+---
+
+<Layout>
+  <Card>
+    <h1 class="text-2xl font-bold text-center text-white">
+      Success!
+    </h1>
+
+    <p class="text-center text-white">
+        You've successfully connected your email! Run <code>{prefix}vse</code> to receive any roles.
+    </p>
+  </Card>
+</Layout>

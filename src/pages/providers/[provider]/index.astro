@@ -1,17 +1,32 @@
 ---
-import { GetProvider } from "../../../../util/user";
+import { GetProvider, GetUser } from "../../../../util/user";
 import Card from "../../../components/Card.astro";
 import Layout from "../../../components/Layout.astro";
 
 const { provider: providerId } = Astro.params as { provider: string };
 
 const provider = await GetProvider(providerId, import.meta.env, Astro);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-if (!provider) Astro.redirect("/");
+const user = await GetUser(import.meta.env, Astro);
+
+if (!user) {
+  return Astro.redirect(
+    `/?redirect=${canonicalURL}`
+  );
+}
+
+if (!provider && providerId !== 'roblox') {
+    return Astro.redirect('/')
+}
+
+const code = providerId === 'roblox' && (provider ? provider.provider_data.code : Astro.site.searchParams.get('code') || Astro.site.searchParams.get('code')) || '';
+
 ---
 
 <Layout>
-    <Card>
+    {provider && providerId !== 'roblox' ? (
+        <Card>
         <h1 class="text-2xl font-bold text-center text-white">
             {provider.type.charAt(0).toUpperCase() + provider.type.slice(1)}{" "}
             Settings
@@ -27,7 +42,7 @@ if (!provider) Astro.redirect("/");
         </h3>
 
         <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/${provider.type}`} method="GET">
-            <input hidden readonly name="redirect" value={Astro.site} />
+            <input hidden readonly name="redirect" value={Astro.site.toString()} />
             <button class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
                 type="submit">
                 Sign out
@@ -40,4 +55,92 @@ if (!provider) Astro.redirect("/");
             </p>
         </a>
     </Card>
+    ) : (
+    <Card>
+        <h1 class="text-2xl font-bold text-center text-white">
+            Roblox Settings
+        </h1>
+
+        {provider ? <>
+            {code && provider.provider_data.status !== 'verified' ? <>
+                <h3 class="text-xl font-bold text-center text-white">Linking code</h3>
+
+                {/* put the code in an input with a copy button */}
+                <div class="flex items-center justify-center w-full">
+                    <input class="p-2 border rounded-lg" value={code} readonly onfocus="this.select()" />
+                </div>
+
+                <p class="text-sm text-center text-gray-200">
+                    Put this anywhere in your profile's description.
+                </p>
+
+                <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/callback/roblox`} method="GET">
+                    <input type="hidden" name="code" value={code} />
+                    <input type="hidden" name="user_id" value={provider.provider_id} />
+                    <input type="hidden" name="redirect" value={Astro.site.toString()} />
+                    <button type="submit"
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+                        Link
+                    </button>
+                </form>
+
+            </> : <>
+                <h3 class="text-xl font-semibold text-center text-white">
+                    Linked Account
+                </h3>
+
+                <h3 class="text-base font-medium text-center text-white">
+                    <span class="font-bold">Username:</span>{" "}
+                    {provider.provider_data ? provider.provider_data.username : provider.provider_id}
+                </h3>
+
+                <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/logout/${provider.type}`}
+                    method="GET">
+                    <input hidden readonly name="redirect" value={Astro.site.toString()} />
+                    <button
+                        class="w-full px-6 py-2 text-lg font-black text-center text-white bg-red-500 rounded-md gap-x-4"
+                        type="submit">
+                        Sign out
+                    </button>
+                </form>
+
+                <a href="/">
+                    <p class="w-full my-4 text-sm font-bold text-center text-blue-500">
+                        Go Back
+                    </p>
+                </a>
+            </>}
+        </> : <>
+            <h2 class="text-xl font-semibold text-center text-white">
+                Link Account
+            </h2>
+
+            <form action={`${import.meta.env.PUBLIC_API_ENDPOINT}/api/v1/auth/login/roblox`} method="GET"
+                class="space-y-6">
+                <input hidden readonly name="redirect" value={canonicalURL.toString()} />
+                <div>
+                    <label for="username" class="block text-sm font-medium text-left text-gray-50">
+                        Roblox Username
+                    </label>
+                    <div class="mt-1">
+                        <input type="text" name="username"
+                            class="block w-full text-white bg-gray-800 border-gray-700 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            placeholder="Builderman" />
+                    </div>
+                </div>
+                <button type="submit"
+                    class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+                    Generate Code
+                </button>
+            </form>
+
+            <a href="/">
+                <p class="w-full my-4 text-sm font-bold text-center text-blue-500">
+                    Go Back
+                </p>
+            </a>
+
+        </>}
+    </Card>
+    )}
 </Layout>
