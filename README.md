@@ -1,4 +1,4 @@
-# Dashboard
+# Astral Auth
 
 > [!IMPORTANT]  
 > This code has been publicly released and archived. You may use it in accordance with the [License](LICENSE). **Support will not be provided.**
@@ -10,7 +10,7 @@
 
 ## Clone the repository
 ```
-git clone https://github.com/astralservices/dashboard.git
+git clone https://github.com/astralservices/auth.git
 ```
 
 ## Rename / Copy the example environment file, then fill out the variables in the file
